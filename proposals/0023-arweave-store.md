@@ -20,7 +20,7 @@ paying out of Solana's inflation.
 ## Abstract
 
 This proposal will ensure that snapshots are stored securely and permanently, while also making them easily accessible
-for future use. The proposal also describes a method for funding the storage costs using inflation emissions.
+for future use. The proposal also aims to begin a discussion around a method for funding the storage costs using inflation emissions.
 
 ## Motivation
 
@@ -31,37 +31,27 @@ the storage costs.
 
 ## New Terminology
 
-N/A
+Arweave - a permanent storage network ("pay once, store forever") backed by the AR token.
+
+Bundlr - a scaling solution for Arweave which allows instant upload/retrieval, supporting >20k TPS and the ability to pay for
+storage in multiple tokens, including SOL. Bundlr is currently handling >90% of transactions on Arweave.
 
 ## Design
 
 ### Overview
 
 The overall design uses a Geyser Plugin to stream and aggregate transactions and blocks into a DB (e.g. Postgres),
-allowing us to compress and store on Arweave, using Bundlr. We'll then take incremental hourly snapshots and store them
+allowing us to compress and store them on Arweave, using Bundlr. We'll also take incremental hourly snapshots of accounts and store them
 on Arweave.
-
-Bundlr is a scaling solution for Arweave which allows instant upload/retrieval, supporting >20k TPS and the ability to pay for
-storage in multiple tokens, including SOL. Bundlr is currently handling >90% of transactions on Arweave.
 
 ### Snapshot Selection Process
 
-An hourly snapshot is taken and stored on Arweave with tags used for searchability. Tags on Arweave allow for efficient searchability 
-for all snapshots stored on the network.
-
-Process of snapshot validation before storage... TODO
-
-### Geyser Plugin Specifications
-
-Detailed technical specifications of the Geyser Plugin, as much as possible but maybe just a high level is fine for the
-initial proposal.
-How the plugin interacts with the Solana network and Arweave.
-
-...TODO
+An hourly snapshot of Solana's accounts is taken and stored on Arweave. Each snapshot will need to be verifiable such that anyone can pull the 
+snapshot and verify that it is the correct state.
 
 ### Snapshot Storage Costs Estimates and Inflation Emission Distribution
 
-The cost per PB on Arweave is currently ~$7m. This means the estimated annual cost to Solana would be ~£Xm
+The cost per PB on Arweave is currently ~$7m. This means the estimated annual cost to Solana would be ~$14m
 
 In terms of a method for incentivization - a possible solution is to payout more inflation rewards to validators
 who choose to archive state.
@@ -74,16 +64,11 @@ The Bundlr integration requires integrating the [Bundlr Rust SDK](https://github
 
 ### Performance and Scalability
 
-Analysis of the proposal's impact on Solana's performance and scalability (probably none for Geyser plugin but I'm hazy
-on the details here and need to do some reading)
-Evaluation of Arweave's capacity to handle the storage requirements of Solana's snapshots.
-Future-proofing considerations for both Solana and Arweave networks?
-
 There shouldn't be any large performance issues with the Geyser plugin.
 
-Arweave has no storage capacity (i.e. it has no limits) and Bundlr is built in such a way that data is buffered on to the network efficiently.
+Arweave has no limits on storage capacity and Bundlr is built in such a way that data is buffered on to the network efficiently.
 Bundlr also provides guarantees around data being stored on Arweave correctly. This means Bundlr can act as a safe
-transport layer for data getting on to Arweave
+transport layer for data getting on to Arweave.
 
 ## Impact
 

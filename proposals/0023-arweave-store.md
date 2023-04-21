@@ -49,9 +49,17 @@ on Arweave.
 An hourly snapshot of Solana's accounts is taken and stored on Arweave. Each snapshot will need to be verifiable such that anyone can pull the 
 snapshot and verify that it is the correct state.
 
+### Ledger archiving
+
+Transactions will be stored in an external store powered by a Geyser plugin, e.g. a Postgres plugin piping transactions
+and blocks into a Postgres table.
+
+For archiving the ledger, ledger state can aggregated, compressed and stored on Arweave once a day. In order to reconstruct the ledger,
+each archive can be pulled from Arweave in parallel and reconstructed by a validator
+
 ### Snapshot Storage Costs Estimates and Inflation Emission Distribution
 
-The cost per PB on Arweave is currently ~$7m. This means the estimated annual cost to Solana would be ~$14m
+The cost per PB on Arweave is currently ~$6m. This means the estimated annual cost to Solana would be ~$12m
 
 In terms of a method for incentivization - a possible solution is to payout more inflation rewards to validators
 who choose to archive state.
